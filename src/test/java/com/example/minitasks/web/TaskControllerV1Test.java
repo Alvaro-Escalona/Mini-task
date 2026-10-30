@@ -27,4 +27,11 @@ class TaskControllerV1Test {
                 .andExpect(jsonPath("$.title").value("Comprar leche"))
                 .andExpect(jsonPath("$.completed").value(false));
     }
+
+    @Test
+    void missingTaskReturns404() throws Exception {
+        mvc.perform(get("/v1/tasks/999"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(""));
+    }
 }
