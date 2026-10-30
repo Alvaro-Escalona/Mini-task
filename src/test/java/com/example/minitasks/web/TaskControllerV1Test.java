@@ -15,13 +15,14 @@ class TaskControllerV1Test {
     @Autowired
     MockMvc mvc;
 
+    @Autowired
+    TaskControllerV1 controller;
+
     @Test
     void getsExistingTask() throws Exception {
-        TaskControllerV1 controller = new TaskControllerV1();
-        controller.create(new Task("Comprar leche"));
-        Long id = controller.list().get(0).getId();
+        Task task = controller.create(new Task("Comprar leche"));
 
-        mvc.perform(get("/v1/tasks/" + id))
+        mvc.perform(get("/v1/tasks/" + task.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Comprar leche"))
                 .andExpect(jsonPath("$.completed").value(false));
